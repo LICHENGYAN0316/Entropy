@@ -86,6 +86,39 @@ The recommended development loop:
 8. Pluto merges, deploys, returns to step 1
 ```
 Cowork is invoked outside this loop for documentation and asset work, which can happen in parallel with code work without conflict.
+
+### Handoff reminder
+At the end of every session, the active agent (or Cowork acting as coordinator) must tell Pluto:
+> "下一步该交给 **[Agent name]**，任务是：[具体任务描述]"
+
+This prevents Pluto from having to read PROGRESS.md to figure out who goes next. The reminder is mandatory — not optional.
+
+### Quick routing guide
+When Pluto is unsure who to assign:
+| Task type | Assign to |
+|---|---|
+| Any code, shader, visual, animation | Antigravity |
+| GitHub Actions, CI, package.json, tests | Codex |
+| README, docs, copy, QA review | Cowork |
+| PR review after Antigravity pushes | Codex |
+| Addressing review comments | Antigravity |
+| Final merge decision | Pluto |
+
+---
+## Skills Reference
+These skill files live in `Skills/` and should be invoked at the moments described below. Read the relevant `SKILL.md` before starting the task it covers.
+
+| Skill | Path | When to use |
+|---|---|---|
+| `writing-plans` | `Skills/superpowers-main/skills/writing-plans` | **Antigravity / Codex:** before touching any code — write the implementation plan first |
+| `dispatching-parallel-agents` | `Skills/superpowers-main/skills/dispatching-parallel-agents` | **Any agent:** when 2+ independent tasks can run in parallel (e.g. Phase 1 scaffold + CI setup + README) |
+| `verification-before-completion` | `Skills/superpowers-main/skills/verification-before-completion` | **Any agent:** before claiming a task is done — run verification commands, confirm output, then mark complete |
+| `requesting-code-review` | `Skills/superpowers-main/skills/requesting-code-review` | **Antigravity / Codex:** before opening a PR or asking Pluto to merge |
+| `receiving-code-review` | `Skills/superpowers-main/skills/receiving-code-review` | **Antigravity:** when Codex has commented on a PR — read before implementing changes |
+| `systematic-debugging` | `Skills/superpowers-main/skills/systematic-debugging` | **Antigravity:** when a shader, animation, or render bug appears — diagnose before fixing |
+| `finishing-a-development-branch` | `Skills/superpowers-main/skills/finishing-a-development-branch` | **Any agent:** at the end of each Phase before merging to `main` |
+| `karpathy-guidelines` | `Skills/andrej-karpathy-skills-main/skills/karpathy-guidelines` | **All agents, always:** core behavioral rules — think before coding, simplicity first, surgical changes |
+
 ---
 ## Anti-Patterns
 Things agents should NOT do:

@@ -79,3 +79,34 @@ If an agent is genuinely stuck (ambiguous requirement, conflicting rules, unknow
 - Agents do not delete files they did not create, unless explicitly instructed.
 - Agents do not rename files without flagging it in PROGRESS.md.
 - Agents do not commit `.env`, `node_modules`, build artifacts, or anything in `.gitignore`.
+---
+## R13. Session Logging (Mandatory)
+Every agent must append a log entry to `LOG.md` at the **start and end** of every session. No exceptions.
+### Log entry format
+```markdown
+## [YYYY-MM-DD HH:MM] [Agent name] — [start | end]
+### Task
+Brief description of what this session is doing.
+### Actions taken
+- ...
+### Files changed
+- `path/to/file` — what changed and why
+```
+Rules:
+- Timestamps must be local time in `YYYY-MM-DD HH:MM` format.
+- Agent name must be one of: `Antigravity`, `Cowork`, `Codex`.
+- The start entry is written before any work begins. The end entry is written after all work is done.
+- If the session ends unexpectedly, the next session of the same agent writes a `[recovered]` end entry explaining what was left incomplete.
+---
+## R14. Archive Before Edit (Mandatory)
+Before modifying any existing file, the agent must create a git commit that captures the current state. This commit is the restore point.
+### Procedure
+1. Run `git add <file>` for every file about to be changed.
+2. Run `git commit -m "chore(<agent>): archive before edit — <short description>"`.
+3. Only then proceed with modifications.
+### Why
+If an edit goes wrong, Pluto can run `git checkout <hash> -- <file>` to restore exactly the pre-edit state without losing other work. A broken edit with no archive commit is unrecoverable without manual reconstruction.
+### Applies to
+- Any `.ts`, `.glsl`, `.html`, `.css`, `.json`, `.md` file that already exists on disk.
+- Does **not** apply to newly created files (nothing to archive).
+- Does **not** apply to `LOG.md` and `PROGRESS.md` append-only writes (appending cannot corrupt prior content).
