@@ -174,3 +174,11 @@ Push current infrastructure commits to GitHub and verify the GitHub Pages deploy
 ### Files changed
 - `LOG.md` — appended session end entry.
 - `PROGRESS.md` — appended deployment verification status and blocker.
+
+## [2026-05-25 23:11] Codex — start
+### Task
+Retry pushing current commits after GitHub authentication was refreshed with `workflow` scope, then verify GitHub Actions and GitHub Pages deployment.
+### Actions taken
+- Started Codex deployment retry session after Pluto refreshed GitHub CLI credentials.
+### Files changed
+- `LOG.md` — appended session start entry.
