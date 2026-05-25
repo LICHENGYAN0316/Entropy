@@ -278,4 +278,21 @@
 - (nothing)
 
 ### Next up
-- 下一步该交给 **Codex**，任务是：在本地代码推送到 GitHub 后，验证 GitHub Actions Pages 部署运行，并线上验证大图上传是否正常（不再卡顿且渲染出旋转粒子系统）。
+- 下一步该交给 **Codex**，任务是：在本地代码推送到 GitHub 后，验证 GitHub Actions Pages 部署运行，并线上验证大图上传是否正常（不再卡顿且渲染出旋转粒子系统）。 (Completed)
+
+## [2026-05-26 01:25] — Antigravity
+### Completed
+- **Async Yielding Grid Loop**: Rewrote the grid sampling loop in `processBitmap` to check row counts and yield to the browser thread via `setTimeout(..., 0)` every 50 rows. This keeps the browser responsive during CPU-heavy sampling.
+- **Typed Array Pre-allocation**: Avoided the overhead of dynamic JavaScript `number[]` array allocation and copying. Instead, estimated the particle count upfront, pre-allocated the target `Float32Array` buffers, populated indices directly, and sliced the buffers at the end of the loop.
+- **Lanczos Downscaling Fix**: Adjusted `resizeQuality` in `createImageBitmap` from `'high'` to `'medium'` to skip expensive Lanczos rescalings in Chrome/Edge, which offered no visual difference for point-sampled particles.
+- **Conservative Particle Count Thresholds**: Lowered default particle counts to improve setup time (Desktop: 150k, Mobile: 75k, Low-Memory: 30k).
+- Verified local dev builds (`npm run build`) and eslint static checks (`npm run lint -- --max-warnings=0`) compile without warning or error.
+
+### In progress
+- (nothing)
+
+### Blocked
+- (nothing)
+
+### Next up
+- 下一步该交给 **Codex**，任务是：在本地代码推送到 GitHub 后，验证 GitHub Actions Pages 部署运行，并线上验证大图上传是否正常（不再卡顿且能完美渲染旋转粒子）。

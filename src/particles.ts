@@ -34,14 +34,15 @@ export async function extractParticlesFromFile(file: File): Promise<ParticleData
   }
 
   // 3. Create the final downscaled ImageBitmap off the main thread
+  // Use 'medium' resize quality to avoid high-overhead Lanczos filtering in Chrome/Edge
   const bitmap = await createImageBitmap(file, {
     resizeWidth: w,
     resizeHeight: h,
-    resizeQuality: 'high',
+    resizeQuality: 'medium',
   });
 
   try {
-    const data = processBitmap(bitmap);
+    const data = await processBitmap(bitmap);
     bitmap.close();
     return data;
   } catch (e) {
@@ -50,18 +51,18 @@ export async function extractParticlesFromFile(file: File): Promise<ParticleData
   }
 }
 
-function processBitmap(bitmap: ImageBitmap): ParticleData {
+async function processBitmap(bitmap: ImageBitmap): Promise<ParticleData> {
   const w = bitmap.width;
   const h = bitmap.height;
 
-  // Determine target particle count
-  let targetCount = 300000;
+  // Determine target particle count (reduced threshold defaults for performance)
+  let targetCount = 150000; // Desktop default (was 300,000)
 
   const deviceMemory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
   if (deviceMemory && deviceMemory < 4) {
-    targetCount = 50000;
+    targetCount = 30000; // Low-memory default (was 50,000)
   } else if (navigator.maxTouchPoints > 0 || /Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-    targetCount = 150000;
+    targetCount = 75000; // Mobile default (was 150,000)
   }
 
   // Create offscreen canvas for sampling
@@ -81,13 +82,22 @@ function processBitmap(bitmap: ImageBitmap): ParticleData {
   const totalPixels = w * h;
   const step = Math.max(1, Math.sqrt(totalPixels / targetCount));
 
-  const positions: number[] = [];
-  const colors: number[] = [];
-  const sizeJitters: number[] = [];
+  // Pre-allocate typed arrays to eliminate dynamic JS array resize and copy overhead
+  const maxParticles = Math.ceil(totalPixels / (step * step));
+  const positions = new Float32Array(maxParticles * 3);
+  const colors = new Float32Array(maxParticles * 3);
+  const sizeJitters = new Float32Array(maxParticles);
+  let count = 0;
 
   const aspectRatio = w / h;
 
   for (let y = 0; y < h; y += step) {
+    // Chunked async sampling: yield control to the browser's main thread every 50 rows
+    // to keep the UI completely responsive.
+    if (Math.floor(y / step) % 50 === 0) {
+      await new Promise<void>((resolve) => setTimeout(resolve, 0));
+    }
+
     for (let x = 0; x < w; x += step) {
       const px = Math.floor(x);
       const py = Math.floor(y);
@@ -105,17 +115,26 @@ function processBitmap(bitmap: ImageBitmap): ParticleData {
       const ny = 0.5 - y / h;
       const nz = (Math.random() - 0.5) * 0.05;
 
-      positions.push(nx, ny, nz);
-      colors.push(r, g, b);
-      sizeJitters.push(Math.random());
+      positions[count * 3] = nx;
+      positions[count * 3 + 1] = ny;
+      positions[count * 3 + 2] = nz;
+
+      colors[count * 3] = r;
+      colors[count * 3 + 1] = g;
+      colors[count * 3 + 2] = b;
+
+      sizeJitters[count] = Math.random();
+
+      count++;
     }
   }
 
+  // Slice buffers to actual sampled particle count
   return {
-    positions: new Float32Array(positions),
-    colors: new Float32Array(colors),
-    sizeJitters: new Float32Array(sizeJitters),
-    count: positions.length / 3,
+    positions: positions.slice(0, count * 3),
+    colors: colors.slice(0, count * 3),
+    sizeJitters: sizeJitters.slice(0, count),
+    count,
     aspectRatio,
   };
 }

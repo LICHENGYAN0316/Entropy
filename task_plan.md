@@ -4,7 +4,7 @@
 Implement the upload button UI, browser-native pixel extraction, and render the static particle cloud in Three.js with custom GLSL shaders and slow auto-rotation.
 
 ## Current Phase
-Phase 8
+Completed (Bug Fix Phase 8)
 
 ## Phases
 
@@ -47,10 +47,10 @@ Phase 8
 - **Status:** complete
 
 ### Phase 8: Bug Fix - Large Image Freeze (Round 2)
-- [ ] Pre-allocate Float32Arrays to avoid dynamic JS arrays resizing
-- [ ] Implement chunked async sampling loop yielding to main thread every 50 rows
-- [ ] Lower resizeQuality to 'medium' and adjust particle count default limits
-- **Status:** in_progress
+- [x] Pre-allocate Float32Arrays to avoid dynamic JS arrays resizing
+- [x] Implement chunked async sampling loop yielding to main thread every 50 rows
+- [x] Lower resizeQuality to 'medium' and adjust particle count default limits
+- **Status:** complete
 
 ## Key Questions
 1. Is the deploy base path matching the repo `/Entropy/`? (Yes, configured in vite.config.ts)

@@ -313,3 +313,20 @@ Fix large-image upload freeze (Round 2) by pre-allocating Float32Array and chunk
 - Started session to implement async chunked sampling and type-array optimization.
 ### Files changed
 - None yet (session started)
+
+## [2026-05-26 01:25] Antigravity — end
+### Task
+Fix large-image upload freeze (Round 2) by pre-allocating Float32Array and chunking the sampling loop to yield to the browser thread.
+### Actions taken
+- Converted `processBitmap` to an asynchronous function.
+- Added a row counter in the grid sampling loop to yield back to the main thread via `setTimeout(..., 0)` every 50 rows, keeping the UI responsive.
+- Pre-allocated flat `Float32Array` arrays using an estimated maximum size and sliced them at the end, eliminating JavaScript dynamic array push overhead.
+- Downgraded `resizeQuality` from `'high'` to `'medium'` in `createImageBitmap` to avoid expensive Lanczos filtering in Chrome/Edge.
+- Adjusted target particle counts: Desktop (150k), Mobile (75k), Low-Memory (30k).
+- Verified that strict lints (`npm run lint -- --max-warnings=0`) and builds (`npm run build`) pass cleanly.
+### Files changed
+- `src/particles.ts` — implemented preallocated typed arrays, async chunked sampling, quality downgrades, and count tweaks
+- `LOG.md` — appended session end entry
+- `task_plan.md` — marked Phase 8 complete
+- `progress.md` — updated status
+- `PROGRESS.md` — updated handoff state
