@@ -13,13 +13,23 @@ export interface ParticleData {
  * and extracts the pixel coordinate and color information.
  */
 export async function extractParticlesFromFile(file: File): Promise<ParticleData> {
+  console.log(`[Particles] Starting extraction for file: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB), type: ${file.type}`);
+  console.time('[Particles] Total Extraction Time');
+
+  console.time('[Particles] Object URL Creation');
   const url = URL.createObjectURL(file);
+  console.timeEnd('[Particles] Object URL Creation');
 
   // 1. Load image metadata asynchronously to read dimensions
+  console.time('[Particles] Image Load (metadata)');
   const img = await new Promise<HTMLImageElement>((resolve, reject) => {
     const i = new Image();
-    i.onload = () => resolve(i);
+    i.onload = () => {
+      console.timeEnd('[Particles] Image Load (metadata)');
+      resolve(i);
+    };
     i.onerror = () => {
+      console.timeEnd('[Particles] Image Load (metadata)');
       URL.revokeObjectURL(url);
       reject(new Error('Failed to load image metadata'));
     };
@@ -28,6 +38,17 @@ export async function extractParticlesFromFile(file: File): Promise<ParticleData
 
   const w = img.naturalWidth;
   const h = img.naturalHeight;
+  console.log(`[Particles] Image loaded metadata. Original size: ${w}x${h}`);
+
+  // 1.5 Asynchronous Decode (pre-decode off-main-thread)
+  console.time('[Particles] Image Async Decode');
+  try {
+    await img.decode();
+    console.log('[Particles] Image async decode successful');
+  } catch (decodeErr) {
+    console.warn('[Particles] Image async decode failed or not supported:', decodeErr);
+  }
+  console.timeEnd('[Particles] Image Async Decode');
 
   // 2. Compute downscaled dimensions (max longest edge is 800px)
   let tw = w;
@@ -42,6 +63,7 @@ export async function extractParticlesFromFile(file: File): Promise<ParticleData
       th = maxDim;
     }
   }
+  console.log(`[Particles] Downscaled target size: ${tw}x${th}`);
 
   // 3. Create small canvas to draw and scale the image down
   const canvas = document.createElement('canvas');
@@ -54,11 +76,22 @@ export async function extractParticlesFromFile(file: File): Promise<ParticleData
   }
 
   // Draw image directly onto the downscaled canvas (triggers scaled decoding)
+  console.time('[Particles] Canvas drawImage (scaling)');
   ctx.drawImage(img, 0, 0, tw, th);
+  console.timeEnd('[Particles] Canvas drawImage (scaling)');
+
   URL.revokeObjectURL(url);
 
+  console.time('[Particles] Canvas getImageData');
   const imgData = ctx.getImageData(0, 0, tw, th).data;
-  return processPixelData(imgData, tw, th);
+  console.timeEnd('[Particles] Canvas getImageData');
+
+  console.time('[Particles] processPixelData Loop');
+  const data = await processPixelData(imgData, tw, th);
+  console.timeEnd('[Particles] processPixelData Loop');
+
+  console.timeEnd('[Particles] Total Extraction Time');
+  return data;
 }
 
 async function processPixelData(
@@ -66,6 +99,7 @@ async function processPixelData(
   w: number,
   h: number
 ): Promise<ParticleData> {
+  console.log(`[Particles] processPixelData called with size: ${w}x${h}`);
   // Determine target particle count (reduced threshold defaults for performance)
   let targetCount = 150000; // Desktop default
 
@@ -75,10 +109,12 @@ async function processPixelData(
   } else if (navigator.maxTouchPoints > 0 || /Mobi|Android|iPhone/i.test(navigator.userAgent)) {
     targetCount = 75000; // Mobile default
   }
+  console.log(`[Particles] Device Memory: ${deviceMemory || 'unknown'}, Target Count: ${targetCount}`);
 
   // Grid sampling calculation
   const totalPixels = w * h;
   const step = Math.max(1, Math.sqrt(totalPixels / targetCount));
+  console.log(`[Particles] Total pixels: ${totalPixels}, Step size: ${step.toFixed(4)}`);
 
   // Pre-allocate typed arrays to eliminate dynamic JS array resize and copy overhead
   const maxParticles = Math.ceil(totalPixels / (step * step));
@@ -88,11 +124,13 @@ async function processPixelData(
   let count = 0;
 
   const aspectRatio = w / h;
+  let yieldCount = 0;
 
   for (let y = 0; y < h; y += step) {
     // Chunked async sampling: yield control to the browser's main thread every 50 rows
     // to keep the UI completely responsive.
     if (Math.floor(y / step) % 50 === 0) {
+      yieldCount++;
       await new Promise<void>((resolve) => setTimeout(resolve, 0));
     }
 
@@ -126,6 +164,8 @@ async function processPixelData(
       count++;
     }
   }
+
+  console.log(`[Particles] Loop finished. Sampled particles: ${count} / Max allocated: ${maxParticles}. Yields: ${yieldCount}`);
 
   // Slice buffers to actual sampled particle count
   return {
