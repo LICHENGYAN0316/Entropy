@@ -1,10 +1,10 @@
-# Task Plan: Scaffold Phase 1 (Vertical Slice Project Setup)
+# Task Plan: Phase 1 Vertical Slice (Upload, Extract, Render)
 
 ## Goal
-Set up Vite, TypeScript, Three.js, linting, formatting, and GitHub Actions deploy workflow.
+Implement the upload button UI, browser-native pixel extraction, and render the static particle cloud in Three.js with custom GLSL shaders and slow auto-rotation.
 
 ## Current Phase
-Completed
+Completed (Vertical Slice)
 
 ## Phases
 
@@ -24,6 +24,22 @@ Completed
 - [x] Verification on dev build and final status check
 - **Status:** complete
 
+### Phase 4: UI & Pixel Extraction
+- [x] Create glassmorphic upload button in index.html and style.css
+- [x] Implement browser-native canvas image processing and pixel sampling in src/particles.ts
+- **Status:** complete
+
+### Phase 5: Three.js Rendering Setup
+- [x] Initialize Three.js WebGLRenderer, PerspectiveCamera, Scene, and Resize handler in src/main.ts
+- [x] Set up auto-rotating container group in src/main.ts
+- **Status:** complete
+
+### Phase 6: Custom Shaders & Breathing Effect
+- [x] Write vertex and fragment shaders in src/shaders/
+- [x] Compile ShaderMaterial and render the particle cloud in Three.js
+- [x] Add canvas double-click and long-press event listeners in src/interaction.ts to re-summon the upload button
+- **Status:** complete
+
 ## Key Questions
 1. Is the deploy base path matching the repo `/Entropy/`? (Yes, configured in vite.config.ts)
 
@@ -36,3 +52,4 @@ Completed
 | Error | Attempt | Resolution |
 |-------|---------|------------|
 | ERESOLVE unable to resolve dependency tree | 1 | Downgraded eslint to ^8.57.0 to match @typescript-eslint peer dependency rules |
+| TS2307: Cannot find module './shaders/*.glsl?raw' | 1 | Created src/vite-env.d.ts to declare '*?raw' module type support |

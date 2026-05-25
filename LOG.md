@@ -250,3 +250,35 @@ Run a final infrastructure health check after the Actions runtime upgrade, inclu
 - `package-lock.json` — regenerated lockfile for updated tooling.
 - `LOG.md` — appended session end entry.
 - `PROGRESS.md` — updated health check status and handoff.
+
+## [2026-05-25 23:51] Antigravity — start
+### Task
+Implement Phase 1 vertical slice features: upload button, pixel extraction, static particle cloud, and auto-rotation.
+### Actions taken
+- Started development session.
+### Files changed
+- None yet (session started)
+
+## [2026-05-25 23:55] Antigravity — end
+### Task
+Implement Phase 1 vertical slice features: upload button, pixel extraction, static particle cloud, and auto-rotation.
+### Actions taken
+- Added glassmorphic camera upload button and hidden native input in index.html and style.css.
+- Implemented canvas pixel processing, downscaling, and adaptive sampling in src/particles.ts.
+- Setup Three.js WebGLRenderer, PerspectiveCamera, Scene, resize handler, and auto-rotation in src/main.ts.
+- Wrote custom GLSL vertex shader (breathing animation, size jitter, distance scaling) and fragment shader (soft glow falloff) in src/shaders/.
+- Coded double-click, double-tap, and long-press canvas detection in src/interaction.ts.
+- Created src/vite-env.d.ts to define raw GLSL imports.
+- Verified build and eslint checks pass with 0 errors/warnings.
+### Files changed
+- `index.html` — added upload button and input
+- `style.css` — added glassmorphic and mobile override styles
+- `src/main.ts` — integrated Three.js life cycle and UI listeners
+- `src/particles.ts` — implemented image scaling and pixel extraction
+- `src/interaction.ts` — implemented gesture and double tap handling
+- `src/shaders/vertex.glsl` — created custom vertex shader
+- `src/shaders/fragment.glsl` — created custom fragment shader
+- `src/vite-env.d.ts` — created type declarations
+- `task_plan.md` — updated phase statuses and errors table
+- `progress.md` — updated with session progress
+- `PROGRESS.md` — updated handoff state

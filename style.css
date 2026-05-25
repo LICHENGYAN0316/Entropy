@@ -19,3 +19,87 @@ body {
   left: 0;
   z-index: 1;
 }
+
+/* Frosted-glass Button */
+#upload-btn {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition:
+    background-color 200ms ease,
+    opacity 400ms ease,
+    transform 200ms ease;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  padding: 0;
+  outline: none;
+}
+
+#upload-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  transform: translateX(-50%) scale(1.04);
+}
+
+#upload-btn:active {
+  transform: translateX(-50%) scale(0.96);
+}
+
+#upload-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+#upload-btn.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(20px) scale(0.9);
+}
+
+/* Mobile override styling */
+@media (max-width: 768px) {
+  #upload-btn {
+    bottom: 50px;
+    width: 64px;
+    height: 64px;
+  }
+
+  #upload-btn.hidden {
+    transform: translateX(-50%) translateY(20px) scale(0.9);
+  }
+}
+
+/* Subtle button shake for error fallback feedback */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(-50%);
+  }
+  20%,
+  60% {
+    transform: translateX(-54%);
+  }
+  40%,
+  80% {
+    transform: translateX(-46%);
+  }
+}
+
+#upload-btn.shake {
+  animation: shake 400ms ease-in-out;
+}

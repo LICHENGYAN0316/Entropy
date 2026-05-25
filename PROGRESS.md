@@ -242,4 +242,23 @@
 - `@eslint/js` — small official ESLint package containing the core recommended config imported by `eslint.config.js`; needed because ESLint 10 no longer makes this import available transitively. No native alternative is appropriate because the config file already uses ESLint's official flat-config pattern.
 
 ### Next up
-- 下一步该交给 **Antigravity**，任务是：继续 Phase 1 vertical slice，实现 upload button、pixel extraction、static particle cloud 和 auto-rotation。
+- 下一步该交给 **Antigravity**，任务是：继续 Phase 1 vertical slice，实现 upload button、pixel extraction、static particle cloud 和 auto-rotation。 (Completed)
+
+## [2026-05-25 23:55] — Antigravity
+### Completed
+- **Upload Button**: Added glassmorphic `#upload-btn` camera button (bottom centered) and hidden native `#file-input` to `index.html`. Styled in `style.css` with Retina-ready `0.5px` border, Gaussian blur saturation, hover state scaling, active press feedback, and a subtle shake error feedback mechanism.
+- **Pixel Extraction**: Implemented browser-native canvas image reading in `src/particles.ts` with custom aspect-ratio mapping, automatic image downscaling (cap at `4000px`), and adaptive particle sampling density depending on device memory and touch configurations (Desktop: ~300k, Mobile: ~150k, Low-Memory: ~50k).
+- **Three.js Particle Rendering**: Structured `WebGLRenderer` bootstrap, camera setups, window resizers, and standard animation frame loop in `src/main.ts`.
+- **GLSL Shaders & Breathing Animation**: Created `src/shaders/vertex.glsl` and `src/shaders/fragment.glsl`. Computed individual size jitter and spatial-based sinusoidal breathing drift on GPU. Rendered particles as soft glowing spheres utilizing additive blending.
+- **Re-summon UI Action**: Implemented double-click, double-tap, and long-press canvas detection in `src/interaction.ts` to reveal the upload button after image loading.
+- **TypeScript Support**: Added `src/vite-env.d.ts` declaring types for raw GLSL imports (`*?raw`).
+- Verified local dev server compilation, formatting (`npm run format`), and strict ESLint analysis (`npm run lint`) pass with zero errors and zero warnings. Verified Vite bundle size is 118KB gzipped.
+
+### In progress
+- (nothing)
+
+### Blocked
+- (nothing)
+
+### Next up
+- 下一步该交给 **Codex**，任务是：在本地代码推送到 GitHub 后，验证 GitHub Actions 部署是否成功，并确保部署页面无任何报错。
