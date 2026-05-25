@@ -4,7 +4,7 @@
 Implement the upload button UI, browser-native pixel extraction, and render the static particle cloud in Three.js with custom GLSL shaders and slow auto-rotation.
 
 ## Current Phase
-Completed (Vertical Slice)
+Phase 7
 
 ## Phases
 
@@ -39,6 +39,12 @@ Completed (Vertical Slice)
 - [x] Compile ShaderMaterial and render the particle cloud in Three.js
 - [x] Add canvas double-click and long-press event listeners in src/interaction.ts to re-summon the upload button
 - **Status:** complete
+
+### Phase 7: Bug Fix - Large Image Freeze
+- [ ] Implement asynchronous ImageBitmap decoding off the main thread
+- [ ] Downscale bitmap to <= 1200px on the longest edge before drawing to offscreen canvas
+- [ ] Safely close all intermediate ImageBitmap allocations to avoid memory leaks
+- **Status:** in_progress
 
 ## Key Questions
 1. Is the deploy base path matching the repo `/Entropy/`? (Yes, configured in vite.config.ts)

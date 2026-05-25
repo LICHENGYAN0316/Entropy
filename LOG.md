@@ -282,3 +282,11 @@ Implement Phase 1 vertical slice features: upload button, pixel extraction, stat
 - `task_plan.md` — updated phase statuses and errors table
 - `progress.md` — updated with session progress
 - `PROGRESS.md` — updated handoff state
+
+## [2026-05-26 01:03] Antigravity — start
+### Task
+Fix the large-image upload freeze in `src/particles.ts` by using `createImageBitmap` and downscaling to <= 1200px before calling `getImageData`.
+### Actions taken
+- Started session to investigate and resolve the image parsing performance issue.
+### Files changed
+- None yet (session started)
