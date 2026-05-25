@@ -207,3 +207,19 @@ Resolve the GitHub Actions Node.js 20 JavaScript action runtime deprecation warn
 - Checked official GitHub action releases for Node 24-compatible major versions.
 ### Files changed
 - `LOG.md` — appended session start entry.
+
+## [2026-05-25 23:26] Codex — end
+### Task
+Resolve the GitHub Actions Node.js 20 JavaScript action runtime deprecation warning by upgrading official workflow actions.
+### Actions taken
+- Created archive commit `1fb0133` before editing `.github/workflows/deploy.yml`.
+- Upgraded official workflow action majors to Node 24-compatible versions.
+- Ran `npm ci`, `npm run lint -- --max-warnings=0`, and `npm run build`.
+- Committed and pushed workflow upgrade commit `09cbf24`.
+- Verified GitHub Actions run `26402752130` completed successfully.
+- Confirmed the Node.js 20 JavaScript action runtime deprecation annotation is gone from the upgraded run.
+- Updated `PROGRESS.md` with verification status, residual notes, and handoff.
+### Files changed
+- `.github/workflows/deploy.yml` — upgraded official GitHub action versions.
+- `LOG.md` — appended session end entry.
+- `PROGRESS.md` — appended CI maintenance status and handoff.

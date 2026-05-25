@@ -175,3 +175,36 @@
 
 ### Next up
 - 下一步该交给 **Antigravity**，任务是：继续 Phase 1 vertical slice，实现 upload button、pixel extraction、static particle cloud 和 auto-rotation。
+
+## [2026-05-25 23:26] — Codex
+### Completed
+- Resolved the GitHub Actions Node.js 20 JavaScript action runtime deprecation warning.
+- Created archive commit `1fb0133` before editing `.github/workflows/deploy.yml`.
+- Upgraded official workflow actions:
+  - `actions/checkout@v4` → `actions/checkout@v6`
+  - `actions/setup-node@v4` → `actions/setup-node@v6`
+  - `actions/configure-pages@v4` → `actions/configure-pages@v6`
+  - `actions/upload-pages-artifact@v3` → `actions/upload-pages-artifact@v5`
+  - `actions/deploy-pages@v4` → `actions/deploy-pages@v5`
+- Kept project build Node at `node-version: 20`; the warning was about GitHub JavaScript action runtime, not the app build runtime.
+- Ran local verification:
+  - `npm ci` succeeded, with existing ESLint 8/transitive dependency deprecation warnings.
+  - `npm run lint -- --max-warnings=0` succeeded.
+  - `npm run build` succeeded.
+- Pushed commit `09cbf24`.
+- Verified GitHub Actions run `26402752130` completed successfully.
+- Verified the run no longer reports the Node.js 20 JavaScript action runtime deprecation annotation.
+
+### In progress
+- (nothing)
+
+### Blocked
+- (nothing)
+
+### Notes
+- Remaining non-blocking CI noise is separate from the resolved Node 20 action runtime warning:
+  - `npm ci` still reports ESLint 8/transitive dependency deprecation warnings and audit notices.
+  - `actions/deploy-pages@v5` emits a `punycode` deprecation warning internally.
+
+### Next up
+- 下一步该交给 **Antigravity**，任务是：继续 Phase 1 vertical slice，实现 upload button、pixel extraction、static particle cloud 和 auto-rotation。
