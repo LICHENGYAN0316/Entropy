@@ -330,3 +330,11 @@ Fix large-image upload freeze (Round 2) by pre-allocating Float32Array and chunk
 - `task_plan.md` — marked Phase 8 complete
 - `progress.md` — updated status
 - `PROGRESS.md` — updated handoff state
+
+## [2026-05-26 01:32] Antigravity — start
+### Task
+Fix large-image upload freeze (Round 3) by replacing `createImageBitmap(file)` dimension check with lightweight `onload` metadata check, and downsampling to 800px.
+### Actions taken
+- Started session to resolve async decoding thread freeze.
+### Files changed
+- None yet (session started)
