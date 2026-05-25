@@ -208,3 +208,26 @@
 
 ### Next up
 - 下一步该交给 **Antigravity**，任务是：继续 Phase 1 vertical slice，实现 upload button、pixel extraction、static particle cloud 和 auto-rotation。
+
+## [2026-05-25 23:29] — Codex
+### Completed
+- Started a final infrastructure health check after the Actions runtime upgrade.
+- Verified latest GitHub Pages workflows are successful and Pages remains configured with `build_type: workflow`.
+- Ran `npm ci`, `npm run lint -- --max-warnings=0`, and `npm run build` against the pre-audit-fix dependency set.
+- Found `npm audit` reported 2 moderate vulnerabilities from Vite's old esbuild dependency chain.
+- Created archive commit `14712bd` before editing `package.json` / `package-lock.json`.
+- Upgraded Vite from `^5.2.11` to `^8.0.14`; `npm audit` then reported `found 0 vulnerabilities`.
+- Investigated remaining `npm ci` deprecation noise from ESLint 8.
+- Began upgrading ESLint tooling from ESLint 8 / typescript-eslint 7 to ESLint 10 / typescript-eslint 8.
+
+### In progress
+- Finishing lint toolchain upgrade verification.
+
+### Blocked
+- (nothing)
+
+### Dependency additions flagged before install
+- `@eslint/js` — small official ESLint package containing the core recommended config imported by `eslint.config.js`; needed because ESLint 10 no longer makes this import available transitively. No native alternative is appropriate because the config file already uses ESLint's official flat-config pattern.
+
+### Next up
+- Codex should install `@eslint/js`, rerun `npm ci`, `npm audit --audit-level=moderate`, `npm run lint -- --max-warnings=0`, and `npm run build`, then push and verify GitHub Actions.
