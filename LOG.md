@@ -290,3 +290,18 @@ Fix the large-image upload freeze in `src/particles.ts` by using `createImageBit
 - Started session to investigate and resolve the image parsing performance issue.
 ### Files changed
 - None yet (session started)
+
+## [2026-05-26 01:07] Antigravity — end
+### Task
+Fix the large-image upload freeze in `src/particles.ts` by using `createImageBitmap` and downscaling to <= 1200px before calling `getImageData`.
+### Actions taken
+- Switched image loading from standard `HTMLImageElement` to asynchronous `createImageBitmap` off the main thread.
+- Added scaling logic to resize the `ImageBitmap` down to ≤ 1200px on its longest edge.
+- Closed temporary and final `ImageBitmap` instances to prevent leaks.
+- Verified that building (`npm run build`) and linting (`npm run lint -- --max-warnings=0`) pass cleanly.
+### Files changed
+- `src/particles.ts` — refactored image load and sampling with ImageBitmap API
+- `LOG.md` — appended session end entry
+- `task_plan.md` — marked Phase 7 complete
+- `progress.md` — updated status
+- `PROGRESS.md` — updated handoff state

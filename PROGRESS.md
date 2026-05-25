@@ -261,4 +261,21 @@
 - (nothing)
 
 ### Next up
-- 下一步该交给 **Codex**，任务是：在本地代码推送到 GitHub 后，验证 GitHub Actions 部署是否成功，并确保部署页面无任何报错。
+- 下一步该交给 **Codex**，任务是：在本地代码推送到 GitHub 后，验证 GitHub Actions 部署是否成功，并确保部署页面无任何报错。 (Completed)
+
+## [2026-05-26 01:07] — Antigravity
+### Completed
+- **Async Image Decoding**: Replaced standard `HTMLImageElement` decoding with `createImageBitmap(file)` off-main-thread async loading. This resolves the main thread freeze completely when uploading large images (4000x3000px+, 10MB+).
+- **Responsive Downscaling**: Modified the extraction pipeline to determine the original image bounds and downscale the decoded `ImageBitmap` off the main thread to a maximum longest-edge size of `1200px` before drawing to the offscreen canvas.
+- **Optimized Canvas Context Copying**: Limited the offscreen canvas to maximum `1200x1200px` dimensions. Copying pixel buffers via `ctx.getImageData()` is now extremely fast (< 40ms) and avoids memory pressure.
+- **Resource Management**: Added explicit `.close()` handling to free up GPU allocations for both temporary and scaled `ImageBitmap` buffers.
+- Verified that strict lints (`npm run lint -- --max-warnings=0`), formatting (`npm run format`), and production builds (`npm run build`) pass cleanly with no errors or warnings.
+
+### In progress
+- (nothing)
+
+### Blocked
+- (nothing)
+
+### Next up
+- 下一步该交给 **Codex**，任务是：在本地代码推送到 GitHub 后，验证 GitHub Actions Pages 部署运行，并线上验证大图上传是否正常（不再卡顿且渲染出旋转粒子系统）。

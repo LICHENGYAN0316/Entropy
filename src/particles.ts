@@ -13,32 +13,16 @@ export interface ParticleData {
  * and extracts the pixel coordinate and color information.
  */
 export async function extractParticlesFromFile(file: File): Promise<ParticleData> {
-  return new Promise((resolve, reject) => {
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-      try {
-        const data = processImage(img);
-        resolve(data);
-      } catch (e) {
-        reject(e);
-      }
-    };
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      reject(new Error('Failed to load image'));
-    };
-    img.src = url;
-  });
-}
+  // 1. Create a temporary bitmap to read dimensions off the main thread
+  const tempBitmap = await createImageBitmap(file);
+  const origW = tempBitmap.width;
+  const origH = tempBitmap.height;
+  tempBitmap.close();
 
-function processImage(img: HTMLImageElement): ParticleData {
-  let w = img.naturalWidth;
-  let h = img.naturalHeight;
-
-  // 1. Downscale if dimensions exceed 4000px
-  const maxDim = 4000;
+  // 2. Compute downscaled dimensions (max longest edge is 1200px)
+  let w = origW;
+  let h = origH;
+  const maxDim = 1200;
   if (w > maxDim || h > maxDim) {
     if (w > h) {
       h = Math.round((h * maxDim) / w);
@@ -49,10 +33,28 @@ function processImage(img: HTMLImageElement): ParticleData {
     }
   }
 
-  // 2. Determine target particle count
-  // Desktop target: ~300,000 particles
-  // Mobile target: ~150,000 particles
-  // Low-Memory target: ~50,000 particles
+  // 3. Create the final downscaled ImageBitmap off the main thread
+  const bitmap = await createImageBitmap(file, {
+    resizeWidth: w,
+    resizeHeight: h,
+    resizeQuality: 'high',
+  });
+
+  try {
+    const data = processBitmap(bitmap);
+    bitmap.close();
+    return data;
+  } catch (e) {
+    bitmap.close();
+    throw e;
+  }
+}
+
+function processBitmap(bitmap: ImageBitmap): ParticleData {
+  const w = bitmap.width;
+  const h = bitmap.height;
+
+  // Determine target particle count
   let targetCount = 300000;
 
   const deviceMemory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
@@ -62,7 +64,7 @@ function processImage(img: HTMLImageElement): ParticleData {
     targetCount = 150000;
   }
 
-  // Create offscreen canvas for resizing / sampling
+  // Create offscreen canvas for sampling
   const canvas = document.createElement('canvas');
   canvas.width = w;
   canvas.height = h;
@@ -71,14 +73,11 @@ function processImage(img: HTMLImageElement): ParticleData {
     throw new Error('Could not get 2D context');
   }
 
-  // Draw image
-  ctx.drawImage(img, 0, 0, w, h);
+  // Draw bitmap to canvas
+  ctx.drawImage(bitmap, 0, 0, w, h);
   const imgData = ctx.getImageData(0, 0, w, h).data;
 
-  // 3. Grid sampling calculation
-  // Total pixels = w * h
-  // We want to sample roughly targetCount particles.
-  // Step size s = sqrt((w * h) / targetCount)
+  // Grid sampling calculation
   const totalPixels = w * h;
   const step = Math.max(1, Math.sqrt(totalPixels / targetCount));
 
@@ -102,10 +101,6 @@ function processImage(img: HTMLImageElement): ParticleData {
       const g = imgData[idx + 1] / 255;
       const b = imgData[idx + 2] / 255;
 
-      // Map to normalized 3D space:
-      // Centered X: from -aspectRatio/2 to aspectRatio/2
-      // Centered Y: from -0.5 to 0.5 (Y pointing up)
-      // Z: small initial random noise depth
       const nx = (x / w - 0.5) * aspectRatio;
       const ny = 0.5 - y / h;
       const nz = (Math.random() - 0.5) * 0.05;
