@@ -198,3 +198,12 @@ Retry pushing current commits after GitHub authentication was refreshed with `wo
 ### Files changed
 - `LOG.md` — appended session end entry.
 - `PROGRESS.md` — appended deployment success status and handoff.
+
+## [2026-05-25 23:20] Codex — start
+### Task
+Resolve the GitHub Actions Node.js 20 JavaScript action runtime deprecation warning by upgrading official workflow actions.
+### Actions taken
+- Confirmed current workflow uses Node 20-runtime action majors (`checkout@v4`, `setup-node@v4`, `configure-pages@v4`, `upload-pages-artifact@v3`, `deploy-pages@v4`).
+- Checked official GitHub action releases for Node 24-compatible major versions.
+### Files changed
+- `LOG.md` — appended session start entry.
