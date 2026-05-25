@@ -152,3 +152,11 @@ Clean up tracked `.DS_Store` by removing it from git tracking while preserving t
 - `.DS_Store` — removed from git tracking while preserving the local file.
 - `LOG.md` — appended session end entry.
 - `PROGRESS.md` — appended cleanup status and handoff.
+
+## [2026-05-25 23:03] Codex — start
+### Task
+Push current infrastructure commits to GitHub and verify the GitHub Pages deployment workflow.
+### Actions taken
+- Started Codex deployment verification session.
+### Files changed
+- `LOG.md` — appended session start entry.
