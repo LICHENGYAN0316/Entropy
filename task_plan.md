@@ -59,6 +59,12 @@ Phase 9
 - [x] Refactor processBitmap into a pure function processPixelData accepting raw Uint8ClampedArray
 - **Status:** complete
 
+### Phase 10: Bug Fix - Web Worker Refactor (Round 4)
+- [x] Create `src/workers/pixel-worker.ts` implementing `OffscreenCanvas` & synchronous pixel processing on a worker thread
+- [x] Integrate worker in `src/particles.ts` using transferable array buffers to avoid copy overhead
+- [x] Provide a main thread fallback in case Workers or `OffscreenCanvas` are not supported
+- **Status:** complete
+
 ## Key Questions
 1. Is the deploy base path matching the repo `/Entropy/`? (Yes, configured in vite.config.ts)
 

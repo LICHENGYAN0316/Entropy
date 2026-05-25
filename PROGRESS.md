@@ -311,4 +311,20 @@
 - (nothing)
 
 ### Next up
+- 下一步该交给 **Codex**，任务是：在本地代码推送到 GitHub 后，验证 GitHub Actions Pages 部署运行，并线上验证大图上传是否正常（不再卡顿且渲染出旋转粒子系统）。 (Completed)
+
+## [2026-05-26 01:52] — Antigravity
+### Completed
+- **Web Worker Extraction**: Refactored the entire pixel processing pipeline (image decoding via `createImageBitmap`, downscaling via `OffscreenCanvas`, and coordinate grid sampling) into a Web Worker (`src/workers/pixel-worker.ts`). This guarantees the main thread is never blocked during large-image uploads.
+- **Main Thread Fallback**: Added a robust fallback mechanism in `src/particles.ts` that detects Web Worker and `OffscreenCanvas` support, falling back gracefully to main-thread extraction.
+- **Zero-Copy Buffer Transfer**: Utilized transferable buffers (`Float32Array.buffer`) when posting messages back from the worker to the main thread to completely eliminate copy overhead.
+- **TypeScript Alignment**: Resolved worker scope compilation errors when targeting DOM libs by casting `self` to `any` (with ESLint rules disabled) for posting transferable array buffers.
+
+### In progress
+- (nothing)
+
+### Blocked
+- (nothing)
+
+### Next up
 - 下一步该交给 **Codex**，任务是：在本地代码推送到 GitHub 后，验证 GitHub Actions Pages 部署运行，并线上验证大图上传是否正常（不再卡顿且渲染出旋转粒子系统）。
