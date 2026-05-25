@@ -13,70 +13,68 @@ export interface ParticleData {
  * and extracts the pixel coordinate and color information.
  */
 export async function extractParticlesFromFile(file: File): Promise<ParticleData> {
-  // 1. Create a temporary bitmap to read dimensions off the main thread
-  const tempBitmap = await createImageBitmap(file);
-  const origW = tempBitmap.width;
-  const origH = tempBitmap.height;
-  tempBitmap.close();
+  const url = URL.createObjectURL(file);
 
-  // 2. Compute downscaled dimensions (max longest edge is 1200px)
-  let w = origW;
-  let h = origH;
-  const maxDim = 1200;
-  if (w > maxDim || h > maxDim) {
-    if (w > h) {
-      h = Math.round((h * maxDim) / w);
-      w = maxDim;
+  // 1. Load image metadata asynchronously to read dimensions
+  const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const i = new Image();
+    i.onload = () => resolve(i);
+    i.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error('Failed to load image metadata'));
+    };
+    i.src = url;
+  });
+
+  const w = img.naturalWidth;
+  const h = img.naturalHeight;
+
+  // 2. Compute downscaled dimensions (max longest edge is 800px)
+  let tw = w;
+  let th = h;
+  const maxDim = 800;
+  if (tw > maxDim || th > maxDim) {
+    if (tw > th) {
+      th = Math.round((th * maxDim) / tw);
+      tw = maxDim;
     } else {
-      w = Math.round((w * maxDim) / h);
-      h = maxDim;
+      tw = Math.round((tw * maxDim) / th);
+      th = maxDim;
     }
   }
 
-  // 3. Create the final downscaled ImageBitmap off the main thread
-  // Use 'medium' resize quality to avoid high-overhead Lanczos filtering in Chrome/Edge
-  const bitmap = await createImageBitmap(file, {
-    resizeWidth: w,
-    resizeHeight: h,
-    resizeQuality: 'medium',
-  });
-
-  try {
-    const data = await processBitmap(bitmap);
-    bitmap.close();
-    return data;
-  } catch (e) {
-    bitmap.close();
-    throw e;
-  }
-}
-
-async function processBitmap(bitmap: ImageBitmap): Promise<ParticleData> {
-  const w = bitmap.width;
-  const h = bitmap.height;
-
-  // Determine target particle count (reduced threshold defaults for performance)
-  let targetCount = 150000; // Desktop default (was 300,000)
-
-  const deviceMemory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
-  if (deviceMemory && deviceMemory < 4) {
-    targetCount = 30000; // Low-memory default (was 50,000)
-  } else if (navigator.maxTouchPoints > 0 || /Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-    targetCount = 75000; // Mobile default (was 150,000)
-  }
-
-  // Create offscreen canvas for sampling
+  // 3. Create small canvas to draw and scale the image down
   const canvas = document.createElement('canvas');
-  canvas.width = w;
-  canvas.height = h;
+  canvas.width = tw;
+  canvas.height = th;
   const ctx = canvas.getContext('2d');
   if (!ctx) {
+    URL.revokeObjectURL(url);
     throw new Error('Could not get 2D context');
   }
 
-  // Draw bitmap to canvas
-  ctx.drawImage(bitmap, 0, 0, w, h);
-  const imgData = ctx.getImageData(0, 0, w, h).data;
+  // Draw image directly onto the downscaled canvas (triggers scaled decoding)
+  ctx.drawImage(img, 0, 0, tw, th);
+  URL.revokeObjectURL(url);
+
+  const imgData = ctx.getImageData(0, 0, tw, th).data;
+  return processPixelData(imgData, tw, th);
+}
+
+async function processPixelData(
+  imgData: Uint8ClampedArray,
+  w: number,
+  h: number
+): Promise<ParticleData> {
+  // Determine target particle count (reduced threshold defaults for performance)
+  let targetCount = 150000; // Desktop default
+
+  const deviceMemory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
+  if (deviceMemory && deviceMemory < 4) {
+    targetCount = 30000; // Low-memory default
+  } else if (navigator.maxTouchPoints > 0 || /Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+    targetCount = 75000; // Mobile default
+  }
 
   // Grid sampling calculation
   const totalPixels = w * h;

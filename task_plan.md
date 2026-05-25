@@ -4,7 +4,7 @@
 Implement the upload button UI, browser-native pixel extraction, and render the static particle cloud in Three.js with custom GLSL shaders and slow auto-rotation.
 
 ## Current Phase
-Completed (Bug Fix Phase 8)
+Phase 9
 
 ## Phases
 
@@ -50,6 +50,13 @@ Completed (Bug Fix Phase 8)
 - [x] Pre-allocate Float32Arrays to avoid dynamic JS arrays resizing
 - [x] Implement chunked async sampling loop yielding to main thread every 50 rows
 - [x] Lower resizeQuality to 'medium' and adjust particle count default limits
+- **Status:** complete
+
+### Phase 9: Bug Fix - Large Image Freeze (Round 3)
+- [x] Avoid createImageBitmap decoding freeze by loading metadata via Image object
+- [x] Downscale longest edge further to 800px max
+- [x] Draw loaded Image directly onto downscaled canvas
+- [x] Refactor processBitmap into a pure function processPixelData accepting raw Uint8ClampedArray
 - **Status:** complete
 
 ## Key Questions

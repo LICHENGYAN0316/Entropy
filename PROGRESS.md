@@ -295,4 +295,20 @@
 - (nothing)
 
 ### Next up
-- 下一步该交给 **Codex**，任务是：在本地代码推送到 GitHub 后，验证 GitHub Actions Pages 部署运行，并线上验证大图上传是否正常（不再卡顿且能完美渲染旋转粒子）。
+- 下一步该交给 **Codex**，任务是：在本地代码推送到 GitHub 后，验证 GitHub Actions Pages 部署运行，并线上验证大图上传是否正常（不再卡顿且能完美渲染旋转粒子）。 (Completed)
+
+## [2026-05-26 01:42] — Antigravity
+### Completed
+- **Lightweight Metadata Load**: Switched from `createImageBitmap` for initial dimension checking to an asynchronous native `Image` onload handler. This retrieves image dimensions without starting full-resolution decoding on the main thread.
+- **Responsive Downscaling**: Reduced the offscreen canvas dimensions limit to `800px` (longest edge) to decrease processing/memory footprint by 4x.
+- **Pure Functional Pixel Processing**: Refactored the extraction pipeline to pass a raw `Uint8ClampedArray` to `processPixelData`, removing DOM canvas dependencies from the asynchronous grid sampling loop.
+- **Verification**: Verified that compilation (`npm run build`) and strict lint analysis (`npm run lint -- --max-warnings=0`) pass cleanly.
+
+### In progress
+- (nothing)
+
+### Blocked
+- (nothing)
+
+### Next up
+- 下一步该交给 **Codex**，任务是：在本地代码推送到 GitHub 后，验证 GitHub Actions Pages 部署运行，并线上验证大图上传是否正常（不再卡顿且渲染出旋转粒子系统）。

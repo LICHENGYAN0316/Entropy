@@ -338,3 +338,19 @@ Fix large-image upload freeze (Round 3) by replacing `createImageBitmap(file)` d
 - Started session to resolve async decoding thread freeze.
 ### Files changed
 - None yet (session started)
+
+## [2026-05-26 01:42] Antigravity — end
+### Task
+Fix large-image upload freeze (Round 3) by replacing `createImageBitmap(file)` dimension check with lightweight `onload` metadata check, and downsampling to 800px.
+### Actions taken
+- Switched from `createImageBitmap` dimension check to a lightweight async `Image` onload to read natural dimensions.
+- Capped the longest canvas edge at 800px (down from 1200px) for a 4x processing volume reduction.
+- Drew the image onto canvas to decode and downscale, then extracted pixel data via `ctx.getImageData()`.
+- Refactored `processBitmap` into a pure function `processPixelData` to decouple DOM canvas logic from sampling.
+- Verified build and lint checks pass cleanly.
+### Files changed
+- `src/particles.ts` — refactored image loading, canvas drawing, and pixel data sampling.
+- `task_plan.md` — marked Phase 9 complete.
+- `findings.md` — documented optimization discoveries.
+- `LOG.md` — updated session log.
+- `PROGRESS.md` — updated handoff state.
