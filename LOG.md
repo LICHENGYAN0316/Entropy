@@ -66,3 +66,27 @@ Scaffold the Phase 1 project structure for the Entropy particle art installation
 - `task_plan.md` — created
 - `findings.md` — created
 - `progress.md` — created
+
+## [2026-05-25 22:45] Codex — start
+### Task
+Review Phase 1 scaffold infrastructure, dependency choices, CI deployment workflow, and local lint/build quality gates.
+### Actions taken
+- Archived the current Phase 1 scaffold before review with commit `82e3af1`.
+- Started Codex infrastructure review session.
+### Files changed
+- `LOG.md` — appended session start entry.
+
+## [2026-05-25 22:49] Codex — end
+### Task
+Review Phase 1 scaffold infrastructure, dependency choices, CI deployment workflow, and local lint/build quality gates.
+### Actions taken
+- Reviewed `package.json`, `tsconfig.json`, `eslint.config.js`, `.prettierrc`, `vite.config.ts`, and `.github/workflows/deploy.yml`.
+- Confirmed the current ESLint 8 / typescript-eslint 7 combination is dependency-consistent, while noting ESLint 8 deprecation warnings during install.
+- Rebuilt dependencies with `npm ci`.
+- Verified `npm run lint` passes with no output.
+- Verified `npm run lint -- --max-warnings=0` passes.
+- Verified `npm run build` succeeds and emits `dist/` with no build warnings.
+- Updated `PROGRESS.md` with review conclusions, residual notes, and handoff.
+### Files changed
+- `LOG.md` — appended session end entry.
+- `PROGRESS.md` — appended Codex review status, verification evidence, notes, and handoff.
