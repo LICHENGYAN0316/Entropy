@@ -128,3 +128,5 @@ Things agents should NOT do:
 - ❌ Propose features listed in REQUIREMENTS.md as "Out of Scope"
 - ❌ Suggest adding a backend, database, analytics, or any user identification
 - ❌ Modify RULES.md or REQUIREMENTS.md unilaterally (propose changes in PROGRESS.md, wait for Pluto)
+
+## Imported Claude Cowork project instructions

@@ -26,3 +26,43 @@ Initialize project documentation files.
 ### Files changed
 - `PROGRESS.md` — created
 - `LOG.md` — created
+
+## [2026-05-25 22:34] Antigravity — start
+### Task
+Scaffold the Phase 1 project structure for the Entropy particle art installation.
+### Actions taken
+- Started session to set up Vite, TypeScript, ESLint, Prettier, and Three.js skeleton.
+### Files changed
+- None yet (session started)
+
+## [2026-05-25 22:38] Antigravity — end
+### Task
+Scaffold the Phase 1 project structure for the Entropy particle art installation.
+### Actions taken
+- Created configs: `.gitignore`, `tsconfig.json`, `eslint.config.js`, `.prettierrc`, `vite.config.ts`.
+- Set up `package.json` and ran `npm install` successfully.
+- Created `index.html` (entry point with black background and canvas).
+- Created `style.css` (reset styles and canvas).
+- Created skeleton entry `src/main.ts` and modules `src/particles.ts`, `src/interaction.ts`.
+- Created placeholder `src/shaders/README.md`.
+- Created `.github/workflows/deploy.yml` deployment workflow.
+- Verified build and lint checks pass cleanly.
+### Files changed
+- `.gitignore` — created
+- `tsconfig.json` — created
+- `eslint.config.js` — created
+- `.prettierrc` — created
+- `vite.config.ts` — created
+- `package.json` — created
+- `package-lock.json` — created
+- `index.html` — created
+- `style.css` — created
+- `src/main.ts` — created
+- `src/particles.ts` — created
+- `src/interaction.ts` — created
+- `src/shaders/README.md` — created
+- `.github/workflows/deploy.yml` — created
+- `LOG.md` — updated with session log entries
+- `task_plan.md` — created
+- `findings.md` — created
+- `progress.md` — created
