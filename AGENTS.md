@@ -93,6 +93,13 @@ At the end of every session, the active agent (or Cowork acting as coordinator) 
 
 This prevents Pluto from having to read PROGRESS.md to figure out who goes next. The reminder is mandatory — not optional.
 
+### Handoff routing rule
+At the end of every session, the active agent must route the next executable task to the agent whose primary domain owns that work.
+
+Do not assign the next step to Pluto unless the next action is specifically a project-owner decision, privacy/scope approval, merge decision, or an external permission/credential action that only Pluto can perform.
+
+If the correct routing is unclear, the agent must say so explicitly and ask Pluto to clarify, rather than guessing or assigning operational work back to Pluto.
+
 ### Quick routing guide
 When Pluto is unsure who to assign:
 | Task type | Assign to |

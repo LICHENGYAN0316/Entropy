@@ -108,3 +108,23 @@ Clarify and correct the Phase 1 handoff target after Pluto flagged that the next
 ### Files changed
 - `LOG.md` — appended session end entry.
 - `PROGRESS.md` — appended handoff correction.
+
+## [2026-05-25 22:55] Codex — start
+### Task
+Add a handoff routing rule to `AGENTS.md` so executable next steps are assigned to the appropriate agent domain instead of defaulting to Pluto.
+### Actions taken
+- Started Codex documentation update session.
+### Files changed
+- `LOG.md` — appended session start entry.
+
+## [2026-05-25 22:55] Codex — end
+### Task
+Add a handoff routing rule to `AGENTS.md` so executable next steps are assigned to the appropriate agent domain instead of defaulting to Pluto.
+### Actions taken
+- Created archive commit `5ced272` before editing `AGENTS.md`.
+- Added the `Handoff routing rule` section under the existing handoff reminder.
+- Updated `PROGRESS.md` with the documentation change and next handoff.
+### Files changed
+- `AGENTS.md` — added handoff routing rule.
+- `LOG.md` — appended session end entry.
+- `PROGRESS.md` — appended session progress and handoff.

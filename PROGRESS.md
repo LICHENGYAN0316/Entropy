@@ -88,3 +88,18 @@
 ### Next up
 - 下一步该交给 **Codex**，任务是：清理已跟踪的 `.DS_Store`（先做归档提交，再从 git index 移除但保留本地文件），推送当前 commits，并验证 GitHub Pages workflow 是否成功部署 `dist/`。
 - 如果 Pluto 不希望 Codex 处理推送/远程验证，或者远程权限不可用，则下一步直接交给 **Antigravity**，任务是：继续 Phase 1 vertical slice，实现 upload button、pixel extraction、static particle cloud 和 auto-rotation。
+
+## [2026-05-25 22:55] — Codex
+### Completed
+- Added a `Handoff routing rule` section to `AGENTS.md` under the existing handoff reminder.
+- The new rule says executable next steps must be routed to the owning agent domain, not Pluto, unless the action truly requires project-owner decision, privacy/scope approval, merge decision, or external permission/credential access.
+- The rule also requires agents to say when routing is unclear and ask Pluto to clarify instead of guessing.
+
+### In progress
+- (nothing)
+
+### Blocked
+- (nothing)
+
+### Next up
+- 下一步该交给 **Codex**，任务是：清理已跟踪的 `.DS_Store`（先做归档提交，再从 git index 移除但保留本地文件），推送当前 commits，并验证 GitHub Pages workflow 是否成功部署 `dist/`。
