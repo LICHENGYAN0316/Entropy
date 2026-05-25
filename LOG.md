@@ -231,3 +231,22 @@ Run a final infrastructure health check after the Actions runtime upgrade, inclu
 - Started Codex health check session.
 ### Files changed
 - `LOG.md` — appended session start entry.
+
+## [2026-05-25 23:42] Codex — end
+### Task
+Run a final infrastructure health check after the Actions runtime upgrade, including local validation, dependency audit, GitHub Actions, and Pages availability.
+### Actions taken
+- Verified latest Pages workflow state and Pages settings.
+- Ran local `npm ci`, `npm audit --audit-level=moderate`, `npm run lint -- --max-warnings=0`, and `npm run build`.
+- Found and fixed Vite/esbuild audit vulnerabilities by upgrading Vite to `^8.0.14`.
+- Removed ESLint 8 deprecation noise by upgrading to ESLint 10 / typescript-eslint 8 and adding explicit `@eslint/js`.
+- Added `npm run lint -- --max-warnings=0` as a CI gate before the Pages build step.
+- Pushed dependency/tooling and CI lint-gate commits.
+- Verified GitHub Actions run `26403514261` succeeded and Pages returns HTTP 200.
+- Updated `PROGRESS.md` with health check findings, fixes, verification evidence, and handoff.
+### Files changed
+- `.github/workflows/deploy.yml` — added CI lint gate.
+- `package.json` — upgraded build/lint tooling and cleaned up lint dependencies.
+- `package-lock.json` — regenerated lockfile for updated tooling.
+- `LOG.md` — appended session end entry.
+- `PROGRESS.md` — updated health check status and handoff.

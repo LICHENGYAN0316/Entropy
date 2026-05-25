@@ -218,10 +218,22 @@
 - Created archive commit `14712bd` before editing `package.json` / `package-lock.json`.
 - Upgraded Vite from `^5.2.11` to `^8.0.14`; `npm audit` then reported `found 0 vulnerabilities`.
 - Investigated remaining `npm ci` deprecation noise from ESLint 8.
-- Began upgrading ESLint tooling from ESLint 8 / typescript-eslint 7 to ESLint 10 / typescript-eslint 8.
+- Upgraded ESLint tooling from ESLint 8 / typescript-eslint 7 to ESLint 10 / typescript-eslint 8.
+- Removed redundant top-level `@typescript-eslint/eslint-plugin` and `@typescript-eslint/parser` devDependencies; they are provided by the `typescript-eslint` meta package.
+- Added `@eslint/js` as an explicit devDependency because `eslint.config.js` imports it directly.
+- Verified after dependency updates:
+  - `npm ci` succeeds with no deprecation warnings.
+  - `npm audit --audit-level=moderate` reports `found 0 vulnerabilities`.
+  - `npm run lint -- --max-warnings=0` succeeds.
+  - `npm run build` succeeds with Vite 8.
+- Pushed dependency update commit `6ed9069`; GitHub Actions run `26403367289` succeeded and Pages returned HTTP 200.
+- Created archive commit `26c23ce` before editing `.github/workflows/deploy.yml`.
+- Added a CI `Lint` step using `npm run lint -- --max-warnings=0` before `Build`.
+- Pushed lint-gate commit `793b529`; GitHub Actions run `26403514261` succeeded, including `Install dependencies`, `Lint`, `Build`, artifact upload, and Pages deploy.
+- Verified Pages URL `https://lichengyan0316.github.io/Entropy/` returns HTTP 200.
 
 ### In progress
-- Finishing lint toolchain upgrade verification.
+- (nothing)
 
 ### Blocked
 - (nothing)
@@ -230,4 +242,4 @@
 - `@eslint/js` — small official ESLint package containing the core recommended config imported by `eslint.config.js`; needed because ESLint 10 no longer makes this import available transitively. No native alternative is appropriate because the config file already uses ESLint's official flat-config pattern.
 
 ### Next up
-- Codex should install `@eslint/js`, rerun `npm ci`, `npm audit --audit-level=moderate`, `npm run lint -- --max-warnings=0`, and `npm run build`, then push and verify GitHub Actions.
+- 下一步该交给 **Antigravity**，任务是：继续 Phase 1 vertical slice，实现 upload button、pixel extraction、static particle cloud 和 auto-rotation。
