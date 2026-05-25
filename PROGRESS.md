@@ -70,3 +70,21 @@
 
 ### Next up
 - 下一步该交给 **Pluto**，任务是：清理已跟踪的 `.DS_Store`（如同意）、推送当前 Phase 1 scaffold/review commits 到 GitHub，并确认 GitHub Pages workflow 首次部署成功；部署通过后再交给 **Antigravity** 开始真正的 Phase 1 vertical slice（upload button + pixel extraction + static particle cloud + auto-rotation）。
+
+## [2026-05-25 22:53] — Codex
+### Completed
+- Clarified the previous handoff: assigning the next step to Pluto mixed up project owner approval with agent execution.
+- Correct routing under the agent division of labor:
+  - Infrastructure cleanup and CI/deploy verification belongs to **Codex**.
+  - Frontend/visual Phase 1 implementation belongs to **Antigravity**.
+  - Pluto only makes final scope/privacy/merge decisions when needed.
+
+### In progress
+- (nothing)
+
+### Blocked
+- (nothing)
+
+### Next up
+- 下一步该交给 **Codex**，任务是：清理已跟踪的 `.DS_Store`（先做归档提交，再从 git index 移除但保留本地文件），推送当前 commits，并验证 GitHub Pages workflow 是否成功部署 `dist/`。
+- 如果 Pluto 不希望 Codex 处理推送/远程验证，或者远程权限不可用，则下一步直接交给 **Antigravity**，任务是：继续 Phase 1 vertical slice，实现 upload button、pixel extraction、static particle cloud 和 auto-rotation。

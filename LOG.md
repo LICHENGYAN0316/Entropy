@@ -90,3 +90,21 @@ Review Phase 1 scaffold infrastructure, dependency choices, CI deployment workfl
 ### Files changed
 - `LOG.md` — appended session end entry.
 - `PROGRESS.md` — appended Codex review status, verification evidence, notes, and handoff.
+
+## [2026-05-25 22:53] Codex — start
+### Task
+Clarify and correct the Phase 1 handoff target after Pluto flagged that the next step should be routed to an agent rather than assigned back to Pluto.
+### Actions taken
+- Started a correction session to append a clearer handoff.
+### Files changed
+- `LOG.md` — appended session start entry.
+
+## [2026-05-25 22:53] Codex — end
+### Task
+Clarify and correct the Phase 1 handoff target after Pluto flagged that the next step should be routed to an agent rather than assigned back to Pluto.
+### Actions taken
+- Appended a corrected handoff to `PROGRESS.md` routing infrastructure cleanup and CI/deploy verification to Codex.
+- Clarified that Antigravity is the next owner if remote push/deploy verification is skipped or unavailable.
+### Files changed
+- `LOG.md` — appended session end entry.
+- `PROGRESS.md` — appended handoff correction.
