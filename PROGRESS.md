@@ -143,3 +143,35 @@
 
 ### Next up
 - 下一步该交给 **Codex**，任务是：在 GitHub credentials 修复后重试 `git push origin main`，检查 GitHub Actions workflow run，并验证 GitHub Pages 部署 URL 是否可访问。
+
+## [2026-05-25 23:16] — Codex
+### Completed
+- Retried deployment after Pluto refreshed GitHub CLI credentials with `workflow` scope.
+- Confirmed GitHub CLI authentication has `repo` and `workflow` scopes when run with keychain access.
+- Committed this session's R13 start log as `ae64c5a`.
+- Pushed `main` to `origin`; remote advanced from `39824bf` to `ae64c5a`.
+- Observed the initial GitHub Pages workflow run `26402292618` fail at `actions/configure-pages@v4` because the repository did not yet have a Pages site enabled for GitHub Actions.
+- Enabled GitHub Pages for the repository via GitHub API with `build_type: workflow`.
+- Re-ran workflow `26402292618`; it completed successfully:
+  - Checkout passed.
+  - Node setup passed.
+  - `npm ci` install passed.
+  - `npm run build` passed.
+  - Pages setup passed.
+  - Pages artifact upload from `dist/` passed.
+  - Deploy to GitHub Pages passed.
+- Verified Pages API reports `build_type: workflow` and URL `https://lichengyan0316.github.io/Entropy/`.
+- Verified the deployed URL returns HTTP 200.
+- Verified the deployed HTML references `/Entropy/assets/...`, matching the Vite `base: '/Entropy/'` config.
+
+### In progress
+- (nothing)
+
+### Blocked
+- (nothing)
+
+### Notes
+- GitHub Actions emitted a platform deprecation annotation: Node.js 20 JavaScript action runtime is being deprecated for the current action versions. This is not blocking the current deployment, but Codex should handle it as future CI maintenance before GitHub fully removes Node 20 action runtime support.
+
+### Next up
+- 下一步该交给 **Antigravity**，任务是：继续 Phase 1 vertical slice，实现 upload button、pixel extraction、static particle cloud 和 auto-rotation。

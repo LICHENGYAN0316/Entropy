@@ -182,3 +182,19 @@ Retry pushing current commits after GitHub authentication was refreshed with `wo
 - Started Codex deployment retry session after Pluto refreshed GitHub CLI credentials.
 ### Files changed
 - `LOG.md` — appended session start entry.
+
+## [2026-05-25 23:16] Codex — end
+### Task
+Retry pushing current commits after GitHub authentication was refreshed with `workflow` scope, then verify GitHub Actions and GitHub Pages deployment.
+### Actions taken
+- Confirmed GitHub CLI authentication has `repo` and `workflow` scopes when run with keychain access.
+- Committed the R13 session start log as `ae64c5a`.
+- Pushed `main` to `origin`.
+- Read the failed GitHub Actions log for run `26402292618`.
+- Enabled GitHub Pages for the repository via GitHub API with `build_type: workflow`.
+- Re-ran workflow `26402292618` and verified it completed successfully.
+- Verified the deployed Pages URL returns HTTP 200 and serves the built Vite HTML.
+- Updated `PROGRESS.md` with deployment verification status, residual note, and Antigravity handoff.
+### Files changed
+- `LOG.md` — appended session end entry.
+- `PROGRESS.md` — appended deployment success status and handoff.
