@@ -305,3 +305,11 @@ Fix the large-image upload freeze in `src/particles.ts` by using `createImageBit
 - `task_plan.md` — marked Phase 7 complete
 - `progress.md` — updated status
 - `PROGRESS.md` — updated handoff state
+
+## [2026-05-26 01:22] Antigravity — start
+### Task
+Fix large-image upload freeze (Round 2) by pre-allocating Float32Array and chunking the sampling loop to yield to the browser thread.
+### Actions taken
+- Started session to implement async chunked sampling and type-array optimization.
+### Files changed
+- None yet (session started)
