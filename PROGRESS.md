@@ -120,3 +120,26 @@
 
 ### Next up
 - 下一步该交给 **Codex**，任务是：推送当前 commits 到 GitHub，并验证 GitHub Pages workflow 是否成功部署 `dist/`；如果 workflow 失败，由 Codex 修复 CI/deploy 配置。
+
+## [2026-05-25 23:05] — Codex
+### Completed
+- Re-read project context files and confirmed Codex owns push/deploy verification.
+- Confirmed current branch is `main` and remote is `origin` at `https://github.com/LICHENGYAN0316/Entropy.git`.
+- Confirmed working tree was clean after committing the R13 session start log as `66fc30d`.
+- Ran local verification:
+  - `npm ci` succeeded, with known ESLint 8/transitive dependency deprecation warnings.
+  - `npm run lint -- --max-warnings=0` succeeded.
+  - `npm run build` succeeded and emitted `dist/`.
+- Attempted `git push origin main`.
+
+### In progress
+- (nothing)
+
+### Blocked
+- GitHub rejected the push: `refusing to allow an OAuth App to create or update workflow .github/workflows/deploy.yml without workflow scope`.
+- `gh auth status` also reports the active `LICHENGYAN0316` token is invalid.
+- Because the push did not complete, GitHub Actions and GitHub Pages deployment verification could not run.
+- Pluto needs to re-authenticate GitHub credentials with workflow permission, for example by running `gh auth login -h github.com` or refreshing the token with `workflow` scope, then Codex can retry the push and deployment verification.
+
+### Next up
+- 下一步该交给 **Codex**，任务是：在 GitHub credentials 修复后重试 `git push origin main`，检查 GitHub Actions workflow run，并验证 GitHub Pages 部署 URL 是否可访问。
