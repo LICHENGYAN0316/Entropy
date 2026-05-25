@@ -87,7 +87,6 @@
 
 ### Next up
 - 下一步该交给 **Codex**，任务是：清理已跟踪的 `.DS_Store`（先做归档提交，再从 git index 移除但保留本地文件），推送当前 commits，并验证 GitHub Pages workflow 是否成功部署 `dist/`。
-- 如果 Pluto 不希望 Codex 处理推送/远程验证，或者远程权限不可用，则下一步直接交给 **Antigravity**，任务是：继续 Phase 1 vertical slice，实现 upload button、pixel extraction、static particle cloud 和 auto-rotation。
 
 ## [2026-05-25 22:55] — Codex
 ### Completed
@@ -103,3 +102,21 @@
 
 ### Next up
 - 下一步该交给 **Codex**，任务是：清理已跟踪的 `.DS_Store`（先做归档提交，再从 git index 移除但保留本地文件），推送当前 commits，并验证 GitHub Pages workflow 是否成功部署 `dist/`。
+
+## [2026-05-25 23:00] — Codex
+### Completed
+- Cleaned up the tracked `.DS_Store` file.
+- Created archive commit `03b8447` before the cleanup.
+- Ran `git rm --cached .DS_Store`, preserving the local Finder file while removing it from git tracking.
+- Verified `.DS_Store` is no longer tracked by `git ls-files`.
+- Verified `.DS_Store` is ignored by `.gitignore` (`git status --ignored --short .DS_Store` reports `!! .DS_Store`).
+- Created cleanup commit `9d2c2c7`.
+
+### In progress
+- (nothing)
+
+### Blocked
+- (nothing)
+
+### Next up
+- 下一步该交给 **Codex**，任务是：推送当前 commits 到 GitHub，并验证 GitHub Pages workflow 是否成功部署 `dist/`；如果 workflow 失败，由 Codex 修复 CI/deploy 配置。

@@ -128,3 +128,27 @@ Add a handoff routing rule to `AGENTS.md` so executable next steps are assigned 
 - `AGENTS.md` — added handoff routing rule.
 - `LOG.md` — appended session end entry.
 - `PROGRESS.md` — appended session progress and handoff.
+
+## [2026-05-25 22:59] Codex — start
+### Task
+Clean up tracked `.DS_Store` by removing it from git tracking while preserving the local Finder file.
+### Actions taken
+- Confirmed `.DS_Store` is tracked and currently modified.
+- Started Codex cleanup session.
+### Files changed
+- `LOG.md` — appended session start entry.
+
+## [2026-05-25 23:00] Codex — end
+### Task
+Clean up tracked `.DS_Store` by removing it from git tracking while preserving the local Finder file.
+### Actions taken
+- Created archive commit `03b8447` for the tracked `.DS_Store` state.
+- Removed `.DS_Store` from git tracking with `git rm --cached .DS_Store`.
+- Confirmed the local `.DS_Store` file still exists.
+- Confirmed `.DS_Store` is ignored by `.gitignore`.
+- Created cleanup commit `9d2c2c7`.
+- Updated `PROGRESS.md` with cleanup status and next handoff.
+### Files changed
+- `.DS_Store` — removed from git tracking while preserving the local file.
+- `LOG.md` — appended session end entry.
+- `PROGRESS.md` — appended cleanup status and handoff.
